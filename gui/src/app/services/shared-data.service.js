@@ -13,31 +13,10 @@
 
 		// shared data
 		this.data = {
-			topologyData: null,
-			pathListData: null,
-
-			// for "details" panels
-			selectedPathData: null,
-			selectedNodeData: null,
-			selectedLinkData: null,
-
-			// boolean markers
-			topologyInitd: false,
-			pathListInitd: false,
 
 			// side panel details
 			sidePanel: false,
 			sidePanelName: null,
-
-			autoPathSetupMode: null,
-			pathSetupMode: null,
-			pathSetupSelectedTab: null,
-			pathDeploymentResult: null,
-			pathSetupUpdateData: null,
-
-			// NeXt library data
-			nxApp: null,
-			nxTopology: null,
 
 			// shared functions
 			openPanel: null

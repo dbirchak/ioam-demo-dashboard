@@ -19,33 +19,34 @@ var config = {
 	debug: false
 };
 
-var pathmanSrBuildRoot = __dirname + "/../../client/pathman_sr/";
+var sourceRoot = __dirname + "/src";
+var buildRoot = __dirname + "/build";
 
 var path = {
 
 	build: {
-		index: pathmanSrBuildRoot,
-		js: pathmanSrBuildRoot + 'js/',
-		css: pathmanSrBuildRoot + '/css/',
-		img: pathmanSrBuildRoot + '/media/img/',
-		templates: pathmanSrBuildRoot + '/templates/',
-		vendor: pathmanSrBuildRoot + '/vendor/'
+		index: buildRoot,
+		js: buildRoot + '/js/',
+		css: buildRoot + '/css/',
+		img: buildRoot + '/media/img/',
+		templates: buildRoot + '/templates/',
+		vendor: buildRoot + '/vendor/'
 	},
 	src: {
-		index: 'src/index.html',
-		js: 'src/main.js',
-		style: 'src/assets/less/main.less',
-		img: 'src/media/img/**/*.*',
-		templates: 'src/app/templates/**/*.*',
-		vendor: 'src/vendor/**/*.*'
+		index: sourceRoot + '/index.html',
+		js: sourceRoot + '/main.js',
+		style: sourceRoot + '/assets/less/main.less',
+		img: sourceRoot + '/media/img/**/*.*',
+		templates: sourceRoot + '/app/templates/**/*.*',
+		vendor: sourceRoot + '/vendor/**/*.*'
 	},
 	watch: {
-		index: 'src/pathman_sr/index.html',
-		js: 'src/pathman_sr/**/*.js',
-		style: 'src/assets/less/**/*.less',
-		img: 'src/media/img/**/*.*',
-		templates: 'src/pathman_sr/app/templates/',
-		vendor: 'src/vendor/**/*.*'
+		index: sourceRoot + '/index.html',
+		js: sourceRoot + '/**/*.js',
+		style: sourceRoot + '/assets/less/**/*.less',
+		img: sourceRoot + '/media/img/**/*.*',
+		templates: sourceRoot + '/app/templates/',
+		vendor: sourceRoot + '/vendor/**/*.*'
 	},
 
 	fileNames: {
@@ -53,7 +54,7 @@ var path = {
 		cssMinified: 'style.css'
 	},
 
-	clean: pathmanSrBuildRoot
+	clean: buildRoot
 };
 
 gulp.task('clean', function () {
@@ -75,7 +76,6 @@ gulp.task('style:build', function () {
 	gulp.src(path.src.style)
 		//.pipe(sourcemaps.init())
 		.pipe(less({
-			includePaths: ['src/style/'],
 			outputStyle: 'compressed',
 			sourceMap: true,
 			errLogToConsole: true

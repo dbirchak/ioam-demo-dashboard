@@ -1,5 +1,5 @@
 {
-	"name": "pathman-sr",
+	"name": "ioam-demo-dashboard",
 	"version": "1.0.0",
 	"dependencies": {
 		"angular": "~1.5.0",
@@ -31,7 +31,7 @@
 		"odl",
 		"sdn"
 	],
-	"homepage": "https://developer.cisco.com/site/devnetlabs/",
+	"homepage": "https://github.com/zverevalexei/ioam-demo-dashboard/",
 	"private": true,
 	"ignore": [
 		"**/.*",

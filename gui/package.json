@@ -1,7 +1,7 @@
 {
-  "name": "pathman-sr-client",
+  "name": "ioam-demo-dashboard",
   "version": "1.0.0",
-  "description": "Frontend app for Pathman SR",
+  "description": "iOAM Demo Dashboard",
   "main": "gulpfile.js",
   "dependencies": {
     "glob": "^7.0.3",
@@ -32,7 +32,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CiscoDevNet/pathman-sr.git"
+    "url": "git+https://github.com/zverevalexei/ioam-demo-dashboard.git"
   },
   "keywords": [
     "pathman",
@@ -48,7 +48,7 @@
   "author": "Alexei Zverev <me@azverev.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/CiscoDevNet/pathman-sr/issues"
+    "url": "https://github.com/zverevalexei/ioam-demo-dashboard/issues"
   },
-  "homepage": "https://github.com/CiscoDevNet/pathman-sr#readme"
+  "homepage": "https://github.com/zverevalexei/ioam-demo-dashboard#readme"
 }
