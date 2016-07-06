@@ -1,6 +1,6 @@
 (function(app){
 
-	var IoamAppCtrl = function($scope, $mdSidenav, $mdDialog, ApiService, SharedDataService, ErrorHandlerService) {
+	var IoamAppCtrl = function($scope, $mdSidenav, $mdDialog, ApiService, SharedDataService, ErrorHandlerService, ChartService) {
 
 		// method prototypes
 		$scope.init = init;
@@ -28,63 +28,37 @@
 		 */
 		function updateSla(){
 
-			var config = {
+			var restCallConfig = {
 				"StartTime": 1123123123,
 				"EndTime": 1123123323,
 				"target-delay": 123,
 				"target-jitter": 1
 			};
 
-			ApiService.getSla(config, getSlaSuccessCbk, getSlaErrorCbk);
+			ApiService.getSla(restCallConfig, getSlaSuccessCbk, getSlaErrorCbk);
 
 			function getSlaSuccessCbk(data){
 
-				var ctxChart1 = document.getElementById("chart1");
-				var ctxChart2 = document.getElementById("chart2");
-
-				var chartOptions = {
-					scales: {
-						gridLines: {
-
-						}
+				ChartService.createDonutChart([
+					{
+						"htmlId": "pathComplChart",
+						"activePercentage": "80"
+					},
+					{
+						"htmlId": "delayComplChart",
+						"activePercentage": "100"
+					},
+					{
+						"htmlId": "jitterComplChart",
+						"activePercentage": "20"
+					},
+					{
+						"htmlId": "pktLossChart",
+						"activePercentage": "99"
 					}
-				};
+				]);
 
-				var chartData1 = {
-					labels: [
-						"Red",
-						"Blue",
-						"Yellow"
-					],
-					datasets: [
-						{
-							data: [300, 50, 100],
-							backgroundColor: [
-								"#FF6384",
-								"#36A2EB",
-								"#FFCE56"
-							],
-							hoverBackgroundColor: [
-								"#FF6384",
-								"#36A2EB",
-								"#FFCE56"
-							]
-						}]
-				};
 
-				// And for a doughnut chart
-				var chartInst1 = new Chart(ctxChart1, {
-					type: 'doughnut',
-					data: chartData1,
-					options: chartOptions
-				});
-
-				// And for a doughnut chart
-				var chartInst2 = new Chart(ctxChart2, {
-					type: 'doughnut',
-					data: chartData1,
-					options: chartOptions
-				});
 
 
 			}
@@ -101,7 +75,8 @@
 
 	};
 
-	IoamAppCtrl.$inject = ["$scope", "$mdSidenav", "$mdDialog", "ApiService", "SharedDataService", "ErrorHandlerService"];
+	IoamAppCtrl.$inject = ["$scope", "$mdSidenav", "$mdDialog", "ApiService", "SharedDataService", "ErrorHandlerService",
+		"ChartService"];
 	app.controller("IoamAppCtrl", IoamAppCtrl);
 
 })(app);

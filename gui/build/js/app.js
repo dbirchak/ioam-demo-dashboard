@@ -294,8 +294,8 @@ As the Object it may have a boolean property allowToLogInConsole, which determin
 (function(app){
 
 	/*
-	NetworkService
-	The service does REST API work that has to do with topology/network
+	ApiService
+	The service does REST API work
 	 */
 
 	var ApiService = function(Restangular, HelpersService){
@@ -396,6 +396,121 @@ As the Object it may have a boolean property allowToLogInConsole, which determin
 	app.service("ApiService", ApiService);
 
 })(app);
+(function(app){
+
+	/*
+	 ChartService
+	 This service contains functions that help a dev with routine work
+	 */
+
+	var ChartService = function(){
+
+		var self = this;
+		this.createDonutChart = createDonutChart;
+
+		function createDonutChart(config){
+
+			var configArr = [];
+
+			// if a set of config
+			if(Array.isArray(config)){
+
+				configArr = config.map(function(chartConfig){
+					return self.createDonutChart(chartConfig);
+				});
+				return configArr;
+
+			}
+
+			// if a single config
+			else if( (typeof config === "object") && config !== null ){
+
+				var chartOptions = {
+					scales: {
+						gridLines:{}
+					},
+					legend: {
+						display: false
+					}
+				};
+
+				var chartData = {
+					labels: [
+						"Green",
+						"Red"
+					],
+					datasets: [
+						{
+							data: [config.activePercentage, 100 - config.activePercentage],
+							backgroundColor: [
+								"#009933",
+								"#ff0000"
+							],
+							hoverBackgroundColor: [
+								"#009933",
+								"#ff0000"
+							]
+						}]
+				};
+
+				// Compile
+
+				var ctx = document.getElementById(config.htmlId).getContext("2d");
+
+				var chartInst = new Chart(ctx, {
+					type: 'doughnut',
+					data: chartData,
+					options: chartOptions
+				});
+
+				Chart.pluginService.register({
+					beforeDraw: function(chart) {
+
+						if(chartInst === chart){
+							var width = chart.chart.width,
+								height = chart.chart.height,
+								ctx = chart.chart.ctx;
+
+							ctx.restore();
+							var fontSize = (height / 114).toFixed(2);
+							ctx.font = fontSize + "em sans-serif";
+							ctx.textBaseline = "middle";
+
+							var text = config.activePercentage + "%",
+								textX = Math.round((width - ctx.measureText(text).width) / 2),
+								textY = height / 2;
+
+							ctx.fillText(text, textX, textY);
+							ctx.save();
+						}
+
+
+					}
+				});
+
+				return chartInst;
+
+			}
+
+
+
+
+
+
+		}
+
+		function createBarChart(){
+
+		}
+
+
+
+	};
+
+	ChartService.$inject = [];
+	app.service("ChartService", ChartService);
+
+})(app);
 
 (function(app){
 
@@ -456,7 +571,7 @@ As the Object it may have a boolean property allowToLogInConsole, which determin
 
 (function(app){
 
-	var IoamAppCtrl = function($scope, $mdSidenav, $mdDialog, ApiService, SharedDataService, ErrorHandlerService) {
+	var IoamAppCtrl = function($scope, $mdSidenav, $mdDialog, ApiService, SharedDataService, ErrorHandlerService, ChartService) {
 
 		// method prototypes
 		$scope.init = init;
@@ -484,63 +599,37 @@ As the Object it may have a boolean property allowToLogInConsole, which determin
 		 */
 		function updateSla(){
 
-			var config = {
+			var restCallConfig = {
 				"StartTime": 1123123123,
 				"EndTime": 1123123323,
 				"target-delay": 123,
 				"target-jitter": 1
 			};
 
-			ApiService.getSla(config, getSlaSuccessCbk, getSlaErrorCbk);
+			ApiService.getSla(restCallConfig, getSlaSuccessCbk, getSlaErrorCbk);
 
 			function getSlaSuccessCbk(data){
 
-				var ctxChart1 = document.getElementById("chart1");
-				var ctxChart2 = document.getElementById("chart2");
-
-				var chartOptions = {
-					scales: {
-						gridLines: {
-
-						}
+				ChartService.createDonutChart([
+					{
+						"htmlId": "pathComplChart",
+						"activePercentage": "80"
+					},
+					{
+						"htmlId": "delayComplChart",
+						"activePercentage": "100"
+					},
+					{
+						"htmlId": "jitterComplChart",
+						"activePercentage": "20"
+					},
+					{
+						"htmlId": "pktLossChart",
+						"activePercentage": "99"
 					}
-				};
+				]);
 
-				var chartData1 = {
-					labels: [
-						"Red",
-						"Blue",
-						"Yellow"
-					],
-					datasets: [
-						{
-							data: [300, 50, 100],
-							backgroundColor: [
-								"#FF6384",
-								"#36A2EB",
-								"#FFCE56"
-							],
-							hoverBackgroundColor: [
-								"#FF6384",
-								"#36A2EB",
-								"#FFCE56"
-							]
-						}]
-				};
 
-				// And for a doughnut chart
-				var chartInst1 = new Chart(ctxChart1, {
-					type: 'doughnut',
-					data: chartData1,
-					options: chartOptions
-				});
-
-				// And for a doughnut chart
-				var chartInst2 = new Chart(ctxChart2, {
-					type: 'doughnut',
-					data: chartData1,
-					options: chartOptions
-				});
 
 
 			}
@@ -557,7 +646,8 @@ As the Object it may have a boolean property allowToLogInConsole, which determin
 
 	};
 
-	IoamAppCtrl.$inject = ["$scope", "$mdSidenav", "$mdDialog", "ApiService", "SharedDataService", "ErrorHandlerService"];
+	IoamAppCtrl.$inject = ["$scope", "$mdSidenav", "$mdDialog", "ApiService", "SharedDataService", "ErrorHandlerService",
+		"ChartService"];
 	app.controller("IoamAppCtrl", IoamAppCtrl);
 
 })(app);

@@ -1,8 +1,8 @@
 (function(app){
 
 	/*
-	NetworkService
-	The service does REST API work that has to do with topology/network
+	ApiService
+	The service does REST API work
 	 */
 
 	var ApiService = function(Restangular, HelpersService){

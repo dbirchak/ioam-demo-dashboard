@@ -5,6 +5,7 @@
 
 //= app/services/helpers.service.js
 //= app/services/api.service.js
+//= app/services/chart.service.js
 
 //= app/controllers/error-handler.controller.js
 //= app/controllers/sidepanel.controller.js
