@@ -9,7 +9,7 @@ configFn = function($mdThemingProvider, RestangularProvider) {
 
 
 	// todo: make URL dynamic
-	RestangularProvider.setBaseUrl("http://localhost:8020");
+	RestangularProvider.setBaseUrl("http://10.60.19.11:8080/ioam");
 };
 configFn.$inject = ["$mdThemingProvider", "RestangularProvider"];
 

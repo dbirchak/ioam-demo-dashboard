@@ -25,6 +25,7 @@
 		<script type="text/javascript" src="vendor/jquery/dist/jquery.min.js"></script>
 		<script type="text/javascript" src="vendor/lodash/dist/lodash.min.js"></script>
 		<script type="text/javascript" src="vendor/restangular/dist/restangular.min.js"></script>
+		<script type="text/javascript" src="vendor/Chart.js/dist/Chart.min.js"></script>
 		<!-- / Vendor JS-->
 
 		<!-- styles -->
@@ -52,7 +53,14 @@
 			</md-toolbar>
 
 			<div class="content-wrapper">
-				hey
+				<div layout="row">
+					<div style="width: 300px">
+						<canvas id="chart1" width="400" height="400"></canvas>
+					</div>
+					<div style="width: 300px">
+						<canvas id="chart2" width="400" height="400"></canvas>
+					</div>
+				</div>
 			</div>
 		</section>
 

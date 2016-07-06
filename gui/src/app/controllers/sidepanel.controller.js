@@ -1,6 +1,6 @@
 (function(app){
 
-	var SidePanelCtrl = function($scope, $mdSidenav, NextTopologyService, SharedDataService) {
+	var SidePanelCtrl = function($scope, $mdSidenav, SharedDataService) {
 
 		$scope.closeSidePanel = closeSidePanel;
 
@@ -12,23 +12,11 @@
 			// erase temporary data
 			SharedDataService.data.sidePanel = false;
 			SharedDataService.data.sidePanelName = null;
-			SharedDataService.data.selectedPathData = null;
-			SharedDataService.data.pathSetupMode = null;
-
-			// if topology ready
-			if(SharedDataService.data.topologyInitd){
-
-				NextTopologyService.clearPathLayer(SharedDataService.data.nxTopology);
-
-				window.setTimeout(function(){
-					SharedDataService.data.nxTopology.adaptToContainer();
-				}, 100);
-			}
 
 		}
 	};
 
-	SidePanelCtrl.$inject = ["$scope", "$mdSidenav", "NextTopologyService", "SharedDataService"];
+	SidePanelCtrl.$inject = ["$scope", "$mdSidenav", "SharedDataService"];
 	app.controller("SidePanelCtrl", SidePanelCtrl);
 
 })(app);

@@ -1,16 +1,10 @@
 (function(app){
 
-	var IoamAppCtrl = function($scope, $mdSidenav, $mdDialog, NextTopologyService,
-								  NetworkService, PathListService, SharedDataService, ErrorHandlerService) {
-
-
+	var IoamAppCtrl = function($scope, $mdSidenav, $mdDialog, ApiService, SharedDataService, ErrorHandlerService) {
 
 		// method prototypes
-
 		$scope.init = init;
-		$scope.initTopology = initTopology;
-		$scope.initPathList = initPathList;
-		$scope.openPanel = openPanel;
+		$scope.updateSla = updateSla;
 
 		// "scopify" shared data
 		$scope.shared = SharedDataService.data;
@@ -25,151 +19,89 @@
 		 */
 		function init(){
 
-			SharedDataService.data.openPanel = $scope.openPanel;
+			$scope.updateSla();
 
-			$scope.initTopology();
-			$scope.initPathList();
 		}
 
 		/**
-		 * Get topology ready
+		 *
 		 */
-		function initTopology(){
+		function updateSla(){
 
-			NetworkService.refreshTopology(
-				function(data){
+			var config = {
+				"StartTime": 1123123123,
+				"EndTime": 1123123323,
+				"target-delay": 123,
+				"target-jitter": 1
+			};
 
-					var nxData = NextTopologyService.initTopology("topology-container");
+			ApiService.getSla(config, getSlaSuccessCbk, getSlaErrorCbk);
 
-					SharedDataService.multiSet({
-						"nxApp": nxData.nxApp,
-						"nxTopology": nxData.nxTopology
-					}, false);
+			function getSlaSuccessCbk(data){
 
-					// record the topology data
-					SharedDataService.data.topologyData = data;
-					// render topology
-					SharedDataService.data.nxTopology.data(SharedDataService.data.topologyData);
-					// topology initialized = true
-					SharedDataService.data.topologyInitd = true;
-				},
-				function(err){
+				var ctxChart1 = document.getElementById("chart1");
+				var ctxChart2 = document.getElementById("chart2");
 
-					ErrorHandlerService.log(err, true);
+				var chartOptions = {
+					scales: {
+						gridLines: {
 
-				}
-			);
-		}
+						}
+					}
+				};
 
-		/**
-		 * Initialize path list by making REST call
-		 */
-		function initPathList(){
+				var chartData1 = {
+					labels: [
+						"Red",
+						"Blue",
+						"Yellow"
+					],
+					datasets: [
+						{
+							data: [300, 50, 100],
+							backgroundColor: [
+								"#FF6384",
+								"#36A2EB",
+								"#FFCE56"
+							],
+							hoverBackgroundColor: [
+								"#FF6384",
+								"#36A2EB",
+								"#FFCE56"
+							]
+						}]
+				};
 
-			PathListService.refreshPathList(
-				function(data){
-					// record path list data
-					SharedDataService.data.pathListData = data;
-					// path list initialized = true
-					SharedDataService.data.pathListInitd = true;
-				},
-				function(err){
+				// And for a doughnut chart
+				var chartInst1 = new Chart(ctxChart1, {
+					type: 'doughnut',
+					data: chartData1,
+					options: chartOptions
+				});
 
-					ErrorHandlerService.log(err, true);
+				// And for a doughnut chart
+				var chartInst2 = new Chart(ctxChart2, {
+					type: 'doughnut',
+					data: chartData1,
+					options: chartOptions
+				});
 
-				}
-			);
-		}
 
-		/**
-		 * Open side panel by name
-		 * @param panelName {String}
-		 * @param [args] {Object} optional
-		 */
-		function openPanel(panelName, args){
-
-			args = args || null;
-
-			if(panelName !== "path-setup" && SharedDataService.data.pathSetupMode == "manual"){
-				SharedDataService.data.pathSetupMode = null;
 			}
 
-			clearPathLayerByTimeout();
-
-			// different actions for different panels
-			switch(panelName){
-
-				case "path-setup":
-
-					SharedDataService.data.pathSetupMode = SharedDataService.data.pathSetupSelectedTab;
-					SharedDataService.data.pathSetupUpdateData = (typeof args === 'object' && args !== null) ?
-						args : {"mode": "default"};
-					SharedDataService.data.sidePanel = true;
-					SharedDataService.data.sidePanelName = panelName;
-
-					break;
-
-				case "path-details":
-					if(typeof args === 'object' && args !== null){
-						if(args.hasOwnProperty("pathData")){
-							SharedDataService.data.selectedPathData = args.pathData;
-
-							SharedDataService.data.sidePanel = true;
-							SharedDataService.data.sidePanelName = panelName;
-						}
-					}
-					break;
-
-				case "node-details":
-					if(typeof args === 'object' && args !== null){
-						if(args.hasOwnProperty("nodeData")){
-							SharedDataService.data.selectedNodeData = args.nodeData;
-
-							SharedDataService.data.sidePanel = true;
-							SharedDataService.data.sidePanelName = panelName;
-						}
-					}
-					break;
-
-				case "link-details":
-					if(typeof args === 'object' && args !== null){
-						if(args.hasOwnProperty("linkData")){
-							SharedDataService.data.selectedLinkData = args.linkData;
-
-							SharedDataService.data.sidePanel = true;
-							SharedDataService.data.sidePanelName = panelName;
-						}
-					}
-					break;
-
-				default:
-					SharedDataService.data.sidePanel = true;
-					SharedDataService.data.sidePanelName = panelName;
-					break;
-			}
-
-			$scope.$root.$broadcast("openPanel", {"panelName": panelName});
-
-
-			function clearPathLayerByTimeout(){
-				if(SharedDataService.data.topologyInitd){
-
-					// make topology fit into shrunk container
-					window.setTimeout(function(){
-						SharedDataService.data.nxTopology.adaptToContainer();
-					}, 100);
-
-					// clear path layers
-					NextTopologyService.clearPathLayer(SharedDataService.data.nxTopology);
-				}
+			function getSlaErrorCbk(err){
+				ErrorHandlerService.log(err);
 			}
 
 		}
+
+
+
+
 
 	};
 
-	IoamAppCtrl.$inject = ["$scope", "$mdSidenav", "$mdDialog", "NextTopologyService",
-		"NetworkService", "PathListService", "SharedDataService", "ErrorHandlerService"];
+	IoamAppCtrl.$inject = ["$scope", "$mdSidenav", "$mdDialog", "ApiService", "SharedDataService", "ErrorHandlerService"];
 	app.controller("IoamAppCtrl", IoamAppCtrl);
 
 })(app);

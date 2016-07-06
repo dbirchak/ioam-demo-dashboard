@@ -1,46 +1,47 @@
 {
-	"name": "ioam-demo-dashboard",
-	"version": "1.0.0",
-	"dependencies": {
-		"angular": "~1.5.0",
-		"angular-animate": "~1.5.0",
-		"angular-aria": "~1.5.0",
-		"angular-material": "1.0.5",
-		"angular-route": "~1.5.0",
-		"angular-translate": "^2.9.1",
-		"angular-translate-loader-partial": "^2.9.1",
-		"font-awesome": "fontawesome#~4.5.0",
-		"requirejs": "~2.1.22",
-		"restangular": "1.5.2",
-		"angular-material-data-table": "~0.9.11",
-		"NeXt": "~0.9.1",
-		"jquery": "latest"
-	},
-	"authors": [
-		"Alexei Zverev <me@azverev.com>"
-	],
-	"license": "MIT",
-	"keywords": [
-		"pathman",
-		"segment",
-		"routing",
-		"pathman",
-		"sr",
-		"cisco",
-		"opendaylight",
-		"odl",
-		"sdn"
-	],
-	"homepage": "https://github.com/zverevalexei/ioam-demo-dashboard/",
-	"private": true,
-	"ignore": [
-		"**/.*",
-		"node_modules",
-		"bower_components",
-		"test",
-		"tests"
-	],
-	"resolutions": {
-		"angular-translate": "~2.10.0"
-	}
+  "name": "ioam-demo-dashboard",
+  "version": "1.0.0",
+  "dependencies": {
+    "angular": "~1.5.0",
+    "angular-animate": "~1.5.0",
+    "angular-aria": "~1.5.0",
+    "angular-material": "1.0.5",
+    "angular-route": "~1.5.0",
+    "angular-translate": "^2.9.1",
+    "angular-translate-loader-partial": "^2.9.1",
+    "font-awesome": "fontawesome#~4.5.0",
+    "requirejs": "~2.1.22",
+    "restangular": "1.5.2",
+    "angular-material-data-table": "~0.9.11",
+    "NeXt": "~0.9.1",
+    "jquery": "latest",
+    "Chart.js": "^2.1.6"
+  },
+  "authors": [
+    "Alexei Zverev <me@azverev.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "pathman",
+    "segment",
+    "routing",
+    "pathman",
+    "sr",
+    "cisco",
+    "opendaylight",
+    "odl",
+    "sdn"
+  ],
+  "homepage": "https://github.com/zverevalexei/ioam-demo-dashboard/",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "resolutions": {
+    "angular-translate": "~2.10.0"
+  }
 }
