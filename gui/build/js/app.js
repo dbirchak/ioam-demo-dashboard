@@ -407,8 +407,17 @@ As the Object it may have a boolean property allowToLogInConsole, which determin
 
 		var self = this;
 		this.createDonutChart = createDonutChart;
+		this.createBarChart = createBarChart;
 
-		function createDonutChart(config){
+		/**
+		 * Creates Doughnut chart with 2 values
+		 * @param config {*} Array/object {htmlId: string, activePercentage: integer}.
+		 * If Object, creates a chart for htmlId, share of green slice = activePercentage
+		 * If Array, loops through each item and handles it as an Object
+		 * @param pathName {String} Unique name of Path
+		 * @returns {Array} new Chart objects
+		 */
+		function createDonutChart(config, pathName){
 
 			var configArr = [];
 
@@ -416,7 +425,7 @@ As the Object it may have a boolean property allowToLogInConsole, which determin
 			if(Array.isArray(config)){
 
 				configArr = config.map(function(chartConfig){
-					return self.createDonutChart(chartConfig);
+					return self.createDonutChart(chartConfig, pathName);
 				});
 				return configArr;
 
@@ -455,9 +464,9 @@ As the Object it may have a boolean property allowToLogInConsole, which determin
 
 				// Compile
 
-				var ctx = document.getElementById(config.htmlId).getContext("2d");
+				var chartCtx = document.getElementById(config.htmlId + "-" + pathName).getContext("2d");
 
-				var chartInst = new Chart(ctx, {
+				var chartInst = new Chart(chartCtx, {
 					type: 'doughnut',
 					data: chartData,
 					options: chartOptions
@@ -492,14 +501,83 @@ As the Object it may have a boolean property allowToLogInConsole, which determin
 
 			}
 
-
-
-
-
-
 		}
 
-		function createBarChart(){
+
+		/**
+		 * Creates Bar chart of 3 values
+		 * @param config {*} Array/object {htmlId: string, activePercentage: integer}.
+		 * If Object, creates a chart for htmlId, share of green slice = activePercentage
+		 * If Array, loops through each item and handles it as an Object
+		 * @param pathName {String} Unique name of Path
+		 * @returns {Array} new Chart objects
+		 */
+		function createBarChart(config, pathName){
+
+			var configArr = [];
+
+			// if a set of config
+			if(Array.isArray(config)){
+
+				configArr = config.map(function(chartConfig){
+					return self.createBarChart(chartConfig, pathName);
+				});
+				return configArr;
+
+			}
+
+			// if a single config
+			else if( (typeof config === "object") && config !== null ){
+
+				console.log(config);
+
+				var chartOptions = {
+					scales: {
+						gridLines:{}
+					},
+					legend: {
+						display: false
+					}
+				};
+
+				var labelsOnly = [];
+				var valuesOnly = [];
+
+				config.bars.forEach(function(bar){
+
+					valuesOnly.push(bar.value);
+					labelsOnly.push(bar.label);
+
+				});
+
+
+				var chartData = {
+					labels: labelsOnly,
+					datasets: [
+						{
+							data: valuesOnly,
+							backgroundColor: [
+								"#ff0000"
+							],
+							hoverBackgroundColor: [
+								"#ff0000"
+							]
+						}]
+				};
+
+				// Compile
+
+				var chartCtx = document.getElementById(config.htmlId + "-" + pathName).getContext("2d");
+
+				var chartInst = new Chart(chartCtx, {
+					type: 'bar',
+					data: chartData,
+					options: chartOptions
+				});
+
+				return chartInst;
+
+			}
 
 		}
 
@@ -580,6 +658,8 @@ As the Object it may have a boolean property allowToLogInConsole, which determin
 		// "scopify" shared data
 		$scope.shared = SharedDataService.data;
 
+		$scope.pathNames = [];
+
 		// initialize the app
 		$scope.init();
 
@@ -610,27 +690,109 @@ As the Object it may have a boolean property allowToLogInConsole, which determin
 
 			function getSlaSuccessCbk(data){
 
-				ChartService.createDonutChart([
-					{
-						"htmlId": "pathComplChart",
-						"activePercentage": "80"
-					},
-					{
-						"htmlId": "delayComplChart",
-						"activePercentage": "100"
-					},
-					{
-						"htmlId": "jitterComplChart",
-						"activePercentage": "20"
-					},
-					{
-						"htmlId": "pktLossChart",
-						"activePercentage": "99"
-					}
-				]);
+				if(Array.isArray(data)){
+
+					data.forEach(function(pathData){
+
+						$scope.pathNames.push(pathData.Path);
+
+						// create charts for current stats
+						ChartService.createDonutChart([
+							{
+								"htmlId": "pathComplChart",
+								"activePercentage": pathData["total-percent-packets-in-policy"]
+							},
+							{
+								"htmlId": "delayComplChart",
+								"activePercentage": pathData["total-percent-delay_out_of_compliance"]
+							},
+							{
+								"htmlId": "jitterComplChart",
+								"activePercentage": pathData["total-percent_jitter_out_of_compliance"]
+							},
+							{
+								"htmlId": "pktLossChart",
+								"activePercentage": pathData["total-percent-packets-received"]
+							}
+						], pathData.Path);
+
+						// create charts for time-span stats
+						ChartService.createBarChart([
+							{
+								"htmlId": "pathComplDevChart",
+								"bars": [
+									{
+										"label": "Last 1 min",
+										"value": pathData["1min-percent-packets-out-of-policy"]
+									},
+									{
+										"label": "Last 15 min",
+										"value": pathData["15min-percent-packets-out-of-policy"]
+									},
+									{
+										"label": "Last 1 hr",
+										"value": pathData["1hr-percent-packets-out-of-policy"]
+									}
+								]
+							},
+							{
+								"htmlId": "delayComplDevChart",
+								"bars": [
+									{
+										"label": "<1% deviation",
+										"value": pathData["Delay_compliance_deviation_1"]
+									},
+									{
+										"label": "1%-10% deviation",
+										"value": pathData["Delay_compliance_deviation_10"]
+									},
+									{
+										"label": ">10% deviation",
+										"value": pathData["Delay_compliance_deviation_g10"]
+									}
+								]
+							},
+							{
+								"htmlId": "jitterComplChart",
+								"bars": [
+									{
+										"label": "<1% deviation",
+										"value": pathData["jitter_compliance_deviation_1"]
+									},
+									{
+										"label": "1%-10% deviation",
+										"value": pathData["jitter_compliance_deviation_10"]
+									},
+									{
+										"label": ">10% deviation",
+										"value": pathData["jitter_compliance_deviation_g10"]
+									}
+								]
+							},
+							{
+								"htmlId": "pktLossChart",
+								"bars": [
+									{
+										"label": "Last 1 min",
+										"value": pathData["1min-percent-packets-lost"]
+									},
+									{
+										"label": "Last 15 min",
+										"value": pathData["15min-percent-packets-lost"]
+									},
+									{
+										"label": "Last 1 hr",
+										"value": pathData["1hr-percent-packets-lost"]
+									}
+								]
+							}
+						], pathData.Path);
 
 
 
+					});
+
+				}
 
 			}
 
