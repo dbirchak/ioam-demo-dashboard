@@ -158,12 +158,8 @@
 					datasets: [
 						{
 							data: valuesOnly,
-							backgroundColor: [
-								"#ff0000"
-							],
-							hoverBackgroundColor: [
-								"#ff0000"
-							]
+							backgroundColor: "#99bbff",
+							hoverBackgroundColor: "#6699ff"
 						}]
 				};
 

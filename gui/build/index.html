@@ -53,57 +53,68 @@
 			</md-toolbar>
 
 			<div class="content-wrapper">
-				<div layout="row" ng-repeat="pathName in pathNames">
-					<div layout="column" layout-align="center center" flex>
-						<!-- Doughnut chart -->
-						<div>
-							<canvas id="pathComplChart-{{pathName}}" class="donut-chart-canvas"></canvas>
-						</div>
-						<div>
-							<span>Path Compliance</span>
-						</div>
-						<!-- Bar chart -->
-						<div>
-							<canvas id="pathComplDevChart-{{pathName}}" class="bar-chart-canvas"></canvas>
-						</div>
+				<div layout="column" ng-repeat="pathName in pathNames">
+					<div>
+						<md-toolbar>
+							<div class="md-toolbar-tools">
+								<span>
+									{{ pathName }}
+								</span>
+							</div>
+						</md-toolbar>
 					</div>
-					<div layout="column" layout-align="center center" flex>
-						<!-- Doughnut chart -->
-						<div>
-							<canvas id="delayComplChart-{{pathName}}" class="donut-chart-canvas"></canvas>
+					<div layout="row">
+						<div layout="column" layout-align="center center" flex>
+							<!-- Doughnut chart -->
+							<div>
+								<canvas id="pathComplChart-{{pathName}}" class="donut-chart-canvas"></canvas>
+							</div>
+							<div>
+								<span>Path Compliance</span>
+							</div>
+							<!-- Bar chart -->
+							<div>
+								<canvas id="pathComplDevChart-{{pathName}}" class="bar-chart-canvas"></canvas>
+							</div>
 						</div>
-						<div>
-							<span>Delay Compliance</span>
+						<div layout="column" layout-align="center center" flex>
+							<!-- Doughnut chart -->
+							<div>
+								<canvas id="delayComplChart-{{pathName}}" class="donut-chart-canvas"></canvas>
+							</div>
+							<div>
+								<span>Delay Compliance</span>
+							</div>
+							<!-- Bar chart -->
+							<div>
+								<canvas id="delayComplDevChart-{{pathName}}" class="bar-chart-canvas"></canvas>
+							</div>
 						</div>
-						<!-- Bar chart -->
-						<div>
-							<canvas id="delayComplDevChart-{{pathName}}" class="bar-chart-canvas"></canvas>
+						<div layout="column" layout-align="center center" flex>
+							<!-- Doughnut chart -->
+							<div>
+								<canvas id="jitterComplChart-{{pathName}}" class="donut-chart-canvas"></canvas>
+							</div>
+							<div>
+								<span>Jitter Compliance</span>
+							</div>
+							<!-- Bar chart -->
+							<div>
+								<canvas id="jitterComplDevChart-{{pathName}}" class="bar-chart-canvas"></canvas>
+							</div>
 						</div>
-					</div>
-					<div layout="column" layout-align="center center" flex>
-						<!-- Doughnut chart -->
-						<div>
-							<canvas id="jitterComplChart-{{pathName}}" class="donut-chart-canvas"></canvas>
-						</div>
-						<div>
-							<span>Jitter Compliance</span>
-						</div>
-						<!-- Bar chart -->
-						<div>
-							<canvas id="jitterComplDevChart-{{pathName}}" class="bar-chart-canvas"></canvas>
-						</div>
-					</div>
-					<div layout="column" layout-align="center center" flex>
-						<!-- Doughnut chart -->
-						<div>
-							<canvas id="pktLossChart-{{pathName}}" class="donut-chart-canvas"></canvas>
-						</div>
-						<div>
-							<span>Packet loss</span>
-						</div>
-						<!-- Bar chart -->
-						<div>
-							<canvas id="pktLossDevChart-{{pathName}}" class="bar-chart-canvas"></canvas>
+						<div layout="column" layout-align="center center" flex>
+							<!-- Doughnut chart -->
+							<div>
+								<canvas id="pktLossChart-{{pathName}}" class="donut-chart-canvas"></canvas>
+							</div>
+							<div>
+								<span>Packet loss</span>
+							</div>
+							<!-- Bar chart -->
+							<div>
+								<canvas id="pktLossDevChart-{{pathName}}" class="bar-chart-canvas"></canvas>
+							</div>
 						</div>
 					</div>
 				</div>

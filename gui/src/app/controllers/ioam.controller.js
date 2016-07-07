@@ -47,97 +47,99 @@
 
 						$scope.pathNames.push(pathData.Path);
 
-						// create charts for current stats
-						ChartService.createDonutChart([
-							{
-								"htmlId": "pathComplChart",
-								"activePercentage": pathData["total-percent-packets-in-policy"]
-							},
-							{
-								"htmlId": "delayComplChart",
-								"activePercentage": pathData["total-percent-delay_out_of_compliance"]
-							},
-							{
-								"htmlId": "jitterComplChart",
-								"activePercentage": pathData["total-percent_jitter_out_of_compliance"]
-							},
-							{
-								"htmlId": "pktLossChart",
-								"activePercentage": pathData["total-percent-packets-received"]
-							}
-						], pathData.Path);
+						window.setTimeout(function(){
+							// create charts for current stats
+							ChartService.createDonutChart([
+								{
+									"htmlId": "pathComplChart",
+									"activePercentage": pathData["total-percent-packets-in-policy"]
+								},
+								{
+									"htmlId": "delayComplChart",
+									"activePercentage": pathData["total-percent-delay_out_of_compliance"]
+								},
+								{
+									"htmlId": "jitterComplChart",
+									"activePercentage": pathData["total-percent_jitter_out_of_compliance"]
+								},
+								{
+									"htmlId": "pktLossChart",
+									"activePercentage": pathData["total-percent-packets-received"]
+								}
+							], pathData.Path);
 
-						// create charts for time-span stats
-						ChartService.createBarChart([
-							{
-								"htmlId": "pathComplDevChart",
-								"bars": [
-									{
-										"label": "Last 1 min",
-										"value": pathData["1min-percent-packets-out-of-policy"]
-									},
-									{
-										"label": "Last 15 min",
-										"value": pathData["15min-percent-packets-out-of-policy"]
-									},
-									{
-										"label": "Last 1 hr",
-										"value": pathData["1hr-percent-packets-out-of-policy"]
-									}
-								]
-							},
-							{
-								"htmlId": "delayComplDevChart",
-								"bars": [
-									{
-										"label": "<1% deviation",
-										"value": pathData["Delay_compliance_deviation_1"]
-									},
-									{
-										"label": "1%-10% deviation",
-										"value": pathData["Delay_compliance_deviation_10"]
-									},
-									{
-										"label": ">10% deviation",
-										"value": pathData["Delay_compliance_deviation_g10"]
-									}
-								]
-							},
-							{
-								"htmlId": "jitterComplChart",
-								"bars": [
-									{
-										"label": "<1% deviation",
-										"value": pathData["jitter_compliance_deviation_1"]
-									},
-									{
-										"label": "1%-10% deviation",
-										"value": pathData["jitter_compliance_deviation_10"]
-									},
-									{
-										"label": ">10% deviation",
-										"value": pathData["jitter_compliance_deviation_g10"]
-									}
-								]
-							},
-							{
-								"htmlId": "pktLossChart",
-								"bars": [
-									{
-										"label": "Last 1 min",
-										"value": pathData["1min-percent-packets-lost"]
-									},
-									{
-										"label": "Last 15 min",
-										"value": pathData["15min-percent-packets-lost"]
-									},
-									{
-										"label": "Last 1 hr",
-										"value": pathData["1hr-percent-packets-lost"]
-									}
-								]
-							}
-						], pathData.Path);
+							// create charts for time-span stats
+							ChartService.createBarChart([
+								{
+									"htmlId": "pathComplDevChart",
+									"bars": [
+										{
+											"label": "Last 1 min",
+											"value": pathData["1min-percent-packets-out-of-policy"]
+										},
+										{
+											"label": "Last 15 min",
+											"value": pathData["15min-percent-packets-out-of-policy"]
+										},
+										{
+											"label": "Last 1 hr",
+											"value": pathData["1hr-percent-packets-out-of-policy"]
+										}
+									]
+								},
+								{
+									"htmlId": "delayComplDevChart",
+									"bars": [
+										{
+											"label": "<1% deviation",
+											"value": pathData["Delay_compliance_deviation_1"]
+										},
+										{
+											"label": "1%-10% deviation",
+											"value": pathData["Delay_compliance_deviation_10"]
+										},
+										{
+											"label": ">10% deviation",
+											"value": pathData["Delay_compliance_deviation_g10"]
+										}
+									]
+								},
+								{
+									"htmlId": "jitterComplDevChart",
+									"bars": [
+										{
+											"label": "<1% deviation",
+											"value": pathData["jitter_compliance_deviation_1"]
+										},
+										{
+											"label": "1%-10% deviation",
+											"value": pathData["jitter_compliance_deviation_10"]
+										},
+										{
+											"label": ">10% deviation",
+											"value": pathData["jitter_compliance_deviation_g10"]
+										}
+									]
+								},
+								{
+									"htmlId": "pktLossDevChart",
+									"bars": [
+										{
+											"label": "Last 1 min",
+											"value": pathData["1min-percent-packets-lost"]
+										},
+										{
+											"label": "Last 15 min",
+											"value": pathData["15min-percent-packets-lost"]
+										},
+										{
+											"label": "Last 1 hr",
+											"value": pathData["1hr-percent-packets-lost"]
+										}
+									]
+								}
+							], pathData.Path);
+						}, 1000);
 
 
 
