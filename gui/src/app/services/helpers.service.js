@@ -70,8 +70,6 @@
 
 		function hasOwnProperties(testObj, props){
 
-			console.log(testObj, props);
-			console.log(testObj, props);
 			if(Array.isArray(props)){
 				for(var i = 0; i < props.length; i++){
 					if(!testObj.hasOwnProperty(props[i])){

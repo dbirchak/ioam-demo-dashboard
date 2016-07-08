@@ -13,8 +13,6 @@
 
 			if(config.url === "") config.url = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port;
 
-			console.log(config.url);
-
 			var restObj = Restangular.setBaseUrl(config.url).one("sla");
 
 			var restCallData = {
