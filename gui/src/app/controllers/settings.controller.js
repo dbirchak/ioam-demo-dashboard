@@ -23,6 +23,7 @@
 		 */
 		function saveSettings(){
 			$scope._writeSettingsToLocalStorage($scope.sFormData);
+			SharedDataService.data.apiSettings = $scope.sFormData;
 			$scope.updateSla();
 		}
 

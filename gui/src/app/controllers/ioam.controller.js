@@ -40,9 +40,9 @@
 		 */
 		function updateSla(){
 
-			//
 			if(HelpersService.isTrueObject(SharedDataService.data.apiSettings)){
 				if(HelpersService.hasOwnProperties(SharedDataService.data.apiSettings, SharedDataService.data.acceptedSettings)){
+					$scope.pathNames = [];
 					ApiService.getSla(SharedDataService.data.apiSettings, getSlaSuccessCbk, getSlaErrorCbk);
 				}
 			}
