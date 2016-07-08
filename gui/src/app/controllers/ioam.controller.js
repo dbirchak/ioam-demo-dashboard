@@ -1,10 +1,14 @@
 (function(app){
 
-	var IoamAppCtrl = function($scope, $mdSidenav, $mdDialog, ApiService, SharedDataService, ErrorHandlerService, ChartService) {
+	var IoamAppCtrl = function($scope, $mdSidenav, $mdDialog, ApiService, SharedDataService, ErrorHandlerService,
+							   ChartService, HelpersService) {
 
 		// method prototypes
 		$scope.init = init;
 		$scope.updateSla = updateSla;
+		$scope.openPanel = openPanel;
+		$scope._readSettingsFromLocalStorage = _readSettingsFromLocalStorage;
+		$scope._writeSettingsToLocalStorage = _writeSettingsToLocalStorage;
 
 		// "scopify" shared data
 		$scope.shared = SharedDataService.data;
@@ -21,23 +25,27 @@
 		 */
 		function init(){
 
+			// copy settings from cookies to Shared datastorage
+			var localSettings = $scope._readSettingsFromLocalStorage();
+			SharedDataService.data.apiSettings = {};
+			angular.copy(localSettings, SharedDataService.data.apiSettings);
+
 			$scope.updateSla();
 
 		}
 
 		/**
-		 *
+		 * Update SLA info
 		 */
 		function updateSla(){
 
-			var restCallConfig = {
-				"StartTime": 1123123123,
-				"EndTime": 1123123323,
-				"target-delay": 123,
-				"target-jitter": 1
-			};
-
-			ApiService.getSla(restCallConfig, getSlaSuccessCbk, getSlaErrorCbk);
+			//
+			if(HelpersService.isTrueObject(SharedDataService.data.apiSettings)){
+				ApiService.getSla(SharedDataService.data.apiSettings, getSlaSuccessCbk, getSlaErrorCbk);
+			}
+			else{
+				return 1;
+			}
 
 			function getSlaSuccessCbk(data){
 
@@ -158,11 +166,61 @@
 
 
 
+		/**
+		 * Open side panel by name
+		 * @param panelName {String}
+		 * @param [args] {Object} optional
+		 */
+		function openPanel(panelName, args) {
+
+			args = args || null;
+
+			console.log(panelName);
+
+			// different actions for different panels
+			switch (panelName) {
+
+				case "settings":
+					SharedDataService.data.sidePanel = true;
+					SharedDataService.data.sidePanelName = panelName;
+					break;
+				default:
+					SharedDataService.data.sidePanel = true;
+					SharedDataService.data.sidePanelName = panelName;
+					break;
+			}
+
+			$scope.$root.$broadcast("openPanel", {"panelName": panelName});
+
+		}
+
+
+		function _readSettingsFromLocalStorage(){
+			var serializedJson, unserializedJson;
+			serializedJson = window.localStorage.getItem("ioamDashboardSettings");
+
+			try {
+				unserializedJson = JSON.parse(serializedJson);
+			}
+			catch(e){
+				return {};
+			}
+			return unserializedJson;
+		}
+
+		function _writeSettingsToLocalStorage(settings){
+			var serializedJson = JSON.stringify(settings);
+			window.localStorage.setItem("ioamDashboardSettings", serializedJson);
+		}
+
+
+
+
 
 	};
 
 	IoamAppCtrl.$inject = ["$scope", "$mdSidenav", "$mdDialog", "ApiService", "SharedDataService", "ErrorHandlerService",
-		"ChartService"];
+		"ChartService", "HelpersService"];
 	app.controller("IoamAppCtrl", IoamAppCtrl);
 
 })(app);

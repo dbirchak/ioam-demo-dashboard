@@ -18,6 +18,9 @@
 			sidePanel: false,
 			sidePanelName: null,
 
+			// settings for REST (url, parameters)
+			apiSettings: null,
+
 			// shared functions
 			openPanel: null
 		};

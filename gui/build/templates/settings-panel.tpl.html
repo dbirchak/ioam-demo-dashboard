@@ -1,0 +1,59 @@
+<section layout="column" class="h100" ng-controller="SettingsCtrl">
+	<md-sidenav class="md-sidenav-right md-whiteframe-z2 h100" md-component-id="right" md-is-locked-open="shared.sidePanel" >
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>
+					<span>
+						<i class="fa fa-wrench" aria-hidden="true"></i>
+						Settings
+					</span>
+				</h2>
+				<span flex></span>
+				<md-button ng-click="closeSidePanel()" class="md-button">Close</md-button>
+			</div>
+		</md-toolbar>
+		<md-content flex>
+			<div layout-fill>
+
+				<section class="layout-padding" flex>
+
+					<form name="SettingsForm" layout="column">
+
+						<md-input-container>
+							<label for="url">URL</label>
+							<input type="text" id="url" name="url" ng-model="sFormData.url">
+						</md-input-container>
+
+						<md-input-container>
+							<label for="startTime">Start time</label>
+							<input type="text" id="startTime" name="startTime" ng-model="sFormData.startTime">
+						</md-input-container>
+
+						<md-input-container>
+							<label for="endTime">End time</label>
+							<input type="text" id="endTime" name="endTime" ng-model="sFormData.endTime">
+						</md-input-container>
+
+						<md-input-container>
+							<label for="targetDelay">Target delay</label>
+							<input type="text" id="targetDelay" name="targetDelay" ng-model="sFormData.targetDelay">
+						</md-input-container>
+
+						<md-input-container>
+							<label for="targetJitter">Target jitter</label>
+							<input type="text" id="targetJitter" name="targetJitter" ng-model="sFormData.targetJitter">
+						</md-input-container>
+
+						<md-button class="md-raised md-primary"
+								   ng-click="saveSettings()">
+							Save
+						</md-button>
+
+					</form>
+
+				</section>
+
+			</div>
+		</md-content>
+	</md-sidenav>
+</section>

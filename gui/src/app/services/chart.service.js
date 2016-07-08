@@ -131,8 +131,6 @@
 			// if a single config
 			else if( (typeof config === "object") && config !== null ){
 
-				console.log(config);
-
 				var chartOptions = {
 					scales: {
 						gridLines:{}

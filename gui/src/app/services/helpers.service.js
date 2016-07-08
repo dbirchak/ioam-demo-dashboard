@@ -10,6 +10,7 @@
 		this.hasOwnPropertiesPath = hasOwnPropertiesPath;
 		this.debounce = debounce;
 		this.arraySum = arraySum;
+		this.isTrueObject = isTrueObject;
 
 		/**
 		 * If an object "a" has a path [b, c, d], it verifies if the object a.b.c.d exists
@@ -60,6 +61,10 @@
 				total += el;
 			});
 			return total;
+		}
+
+		function isTrueObject(testObj){
+			return typeof testObj === "object" && testObj !== null;
 		}
 
 	};

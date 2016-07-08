@@ -9,5 +9,6 @@
 
 //= app/controllers/error-handler.controller.js
 //= app/controllers/sidepanel.controller.js
+//= app/controllers/settings.controller.js
 
 //= app/controllers/ioam.controller.js
