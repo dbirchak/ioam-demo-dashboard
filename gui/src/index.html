@@ -37,7 +37,7 @@
 
 	<div layout="row" class="h100" flex layout-fill>
 
-		<section layout="column" flex layout-fill>
+		<md-content layout="column" flex layout-fill>
 
 			<md-toolbar>
 				<div class="md-toolbar-tools toolbar-main">
@@ -119,14 +119,14 @@
 					</div>
 				</div>
 			</md-content>
-		</section>
+		</md-content>
 
-		<section layout="column"
+		<md-content layout="column"
 				 class="h100"
 				 ng-show="shared.sidePanel"
 				 ng-controller="SidePanelCtrl">
 			<div class="h100" ng-show="shared.sidePanelName == 'settings'" ng-include=" 'templates/settings-panel.tpl.html' "></div>
-		</section>
+		</md-content>
 	</div>
 	<script type="text/javascript" src="js/app.js"></script>
     </body>
