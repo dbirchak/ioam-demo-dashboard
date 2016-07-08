@@ -11,6 +11,8 @@
 
 		function getSla(config, successCbk, errorCbk){
 
+			console.log(config);
+
 			var restObj = Restangular.setBaseUrl(config.url).one("sla");
 
 			var restCallData = {

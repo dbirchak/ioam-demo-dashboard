@@ -14,6 +14,7 @@
 		$scope.shared = SharedDataService.data;
 
 		$scope.pathNames = [];
+		$scope.shared.acceptedSettings = ["url", "startTime", "endTime", "targetDelay", "targetJitter"];
 
 		// initialize the app
 		$scope.init();
@@ -41,7 +42,9 @@
 
 			//
 			if(HelpersService.isTrueObject(SharedDataService.data.apiSettings)){
-				ApiService.getSla(SharedDataService.data.apiSettings, getSlaSuccessCbk, getSlaErrorCbk);
+				if(HelpersService.hasOwnProperties(SharedDataService.data.apiSettings, SharedDataService.data.acceptedSettings)){
+					ApiService.getSla(SharedDataService.data.apiSettings, getSlaSuccessCbk, getSlaErrorCbk);
+				}
 			}
 			else{
 				return 1;

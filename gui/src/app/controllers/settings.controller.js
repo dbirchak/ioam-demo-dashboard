@@ -9,7 +9,6 @@
 		$scope.shared = SharedDataService.data;
 
 		$scope.sFormData = {};
-		$scope.acceptedSettings = ["url", "startTime", "endTime", "targetDelay", "targetJitter"];
 		$scope.$on("openPanel", function(event, args){
 			if(args.panelName === "settings"){
 				$scope.fillOutForm();
@@ -43,7 +42,7 @@
 			if(HelpersService.isTrueObject(s)){
 
 				// copy Shared settings to the form
-				$scope.acceptedSettings.forEach(function(item){
+				$scope.shared.acceptedSettings.forEach(function(item){
 
 					$scope.sFormData[item] = (s.hasOwnProperty(item)) ? s[item] : ""
 				});
