@@ -56,6 +56,8 @@
 
 			function getSlaSuccessCbk(data){
 
+				console.log(data);
+
 				if(Array.isArray(data)){
 
 					var dataArrayIndex;
@@ -127,24 +129,44 @@
 											"pathComplChart": {
 												"instance": ChartService.createDonutChart({
 													"htmlId": "pathComplChart",
+													"reversePercentage": false,
+													"labels": {
+														"primary": "Path comp.",
+														"secondary": "Path non-compl."
+													},
 													"activePercentage": pathData["total-percent-packets-in-policy"]
 												}, pathName)
 											},
 											"delayComplChart": {
 												"instance": ChartService.createDonutChart({
 													"htmlId": "delayComplChart",
+													"reversePercentage": true,
+													"labels": {
+														"primary": "Delay comp.",
+														"secondary": "Delay non-compl."
+													},
 													"activePercentage": pathData["total-percent-delay_out_of_compliance"]
 												}, pathName)
 											},
 											"jitterComplChart": {
 												"instance": ChartService.createDonutChart({
 													"htmlId": "jitterComplChart",
+													"reversePercentage": true,
+													"labels": {
+														"primary": "Jitter comp.",
+														"secondary": "Jitter non-compl."
+													},
 													"activePercentage": pathData["total-percent_jitter_out_of_compliance"]
 												}, pathName)
 											},
 											"pktLossChart": {
 												"instance": ChartService.createDonutChart({
 													"htmlId": "pktLossChart",
+													"reversePercentage": true,
+													"labels": {
+														"primary": "Pkts in",
+														"secondary": "Pkt loss"
+													},
 													"activePercentage": pathData["total-percent-packets-received"]
 												}, pathName)
 											},
@@ -175,15 +197,15 @@
 													"bars": [
 														{
 															"label": "<1% deviation",
-															"value": pathData["Delay_compliance_deviation_1"]
+															"value": pathData["delay_compliance_deviation_1"]
 														},
 														{
 															"label": "1%-10% deviation",
-															"value": pathData["Delay_compliance_deviation_10"]
+															"value": pathData["delay_compliance_deviation_10"]
 														},
 														{
 															"label": ">10% deviation",
-															"value": pathData["Delay_compliance_deviation_g10"]
+															"value": pathData["delay_compliance_deviation_g10"]
 														}
 													]
 												}, pathName)
@@ -247,10 +269,6 @@
 
 						}, 300);
 
-
-
-
-
 					}
 
 				}
@@ -262,8 +280,6 @@
 			}
 
 		}
-
-
 
 
 		/**

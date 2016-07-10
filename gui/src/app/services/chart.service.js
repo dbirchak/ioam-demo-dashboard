@@ -47,8 +47,8 @@
 
 				var chartData = {
 					labels: [
-						"Green",
-						"Red"
+						config.labels.primary,
+						config.labels.secondary
 					],
 					datasets: [
 						{
@@ -87,7 +87,7 @@
 							ctx.font = fontSize + "em sans-serif";
 							ctx.textBaseline = "middle";
 
-							var text = config.activePercentage + "%",
+							var text = (config.reversePercentage) ? ((100 - config.activePercentage)  + "%") : (config.activePercentage + "%"),
 								textX = Math.round((width - ctx.measureText(text).width) / 2),
 								textY = height / 2;
 
